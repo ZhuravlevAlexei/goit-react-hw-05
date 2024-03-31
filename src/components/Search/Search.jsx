@@ -6,10 +6,11 @@ const Search = ({ handleSubmit, handleSearchInputChange, searchText }) => {
     <form onSubmit={handleSubmit} className={css.searchForm}>
       <label>
         <input
-          className={css.input}
+          className={css.searchInput}
           value={searchText}
           name="search"
           type="text"
+          placeholder="Search a movie..."
           onChange={handleSearchInputChange}
           autoComplete="off"
         />
