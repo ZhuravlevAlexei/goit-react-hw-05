@@ -3,6 +3,7 @@ import { useParams, useLocation, Link, Outlet } from 'react-router-dom';
 
 import { getDataByAxios } from '../../sevices/library';
 import css from './MovieDetailsPage.module.css';
+import toast from 'react-hot-toast';
 
 const MovieDetailsPage = () => {
   const [movieData, setMovieData] = useState({});
@@ -11,13 +12,17 @@ const MovieDetailsPage = () => {
   const location = useLocation();
 
   useEffect(() => {
-    getDataByAxios(`/movie/${movieId}`, 0, '').then(resp => {
-      if (resp.status !== 200) {
-        throw new Error(resp.statusText);
-      } else {
-        setMovieData(resp.data);
-      }
-    });
+    try {
+      getDataByAxios(`/movie/${movieId}`, 0, '').then(resp => {
+        if (resp.status !== 200) {
+          throw new Error(resp.statusText);
+        } else {
+          setMovieData(resp.data);
+        }
+      });
+    } catch (error) {
+      toast.error(error.message);
+    }
   }, [movieId]);
 
   const {

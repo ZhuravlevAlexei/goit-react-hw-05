@@ -16,7 +16,7 @@ const MovieList = ({
     <>
       <ul>
         {movieList.map(({ id, title }) => (
-          <li key={id}>
+          <li key={id} className={css.listTxt}>
             <Link to={`/movies/${id}`} state={location}>
               {title}
             </Link>

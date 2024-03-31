@@ -1,3 +1,7 @@
+.listTxt {
+  text-decoration: underline;
+}
+
 .buttonWrap {
   display: flex;
   justify-content: start;
