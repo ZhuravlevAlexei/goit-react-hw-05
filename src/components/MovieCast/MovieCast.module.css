@@ -1,0 +1,12 @@
+.castTitle {
+  margin-left: 30px;
+}
+
+.castActorCard {
+  display: flex;
+  flex-direction: column;
+}
+
+.castBlankImage {
+  background-color: lightgray;
+}

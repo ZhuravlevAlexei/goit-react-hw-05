@@ -1,0 +1,27 @@
+.nav {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  list-style: none;
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+}
+
+.navItem {
+  padding: 10px;
+}
+
+.navLink {
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.navLink:focus,
+.navLink:hover {
+  color: red;
+  text-decoration: underline;
+}
