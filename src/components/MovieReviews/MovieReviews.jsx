@@ -2,19 +2,24 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getDataByAxios } from '../../sevices/library';
 import css from './MovieReviews.module.css';
+import { toast } from 'react-hot-toast';
 
 const MovieReviews = () => {
   const { movieId } = useParams();
   const [movieRevews, setMovieReviews] = useState([]);
+
   useEffect(() => {
-    getDataByAxios(`/movie/${movieId}/reviews`, 0, '').then(resp => {
-      if (resp.status !== 200) {
-        throw new Error(resp.statusText);
-      } else {
-        setMovieReviews(resp.data.results);
-      }
-    });
+    getDataByAxios(`/movie/${movieId}/reviews`, 0, '')
+      .then(resp => {
+        if (resp.status !== 200) {
+          throw new Error(resp.statusText);
+        } else {
+          setMovieReviews(resp.data.results);
+        }
+      })
+      .catch(error => toast.error(error.message));
   }, [movieId]);
+
   return (
     <div>
       {movieRevews.length === 0 ? (

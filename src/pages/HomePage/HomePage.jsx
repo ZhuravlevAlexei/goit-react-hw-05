@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { getDataByAxios } from '../../sevices/library';
+import toast from 'react-hot-toast';
 import MovieList from '../../components/MovieList/MovieList';
 
 const HomePage = () => {
@@ -15,14 +16,16 @@ const HomePage = () => {
   }
 
   useEffect(() => {
-    getDataByAxios(`/trending/movie/day`, paginationPage).then(resp => {
-      if (resp.status !== 200) {
-        throw new Error(resp.statusText);
-      } else {
-        totalPages.current = resp.data.total_pages;
-        setMovieList(resp.data.results);
-      }
-    });
+    getDataByAxios(`/trending/movie/day`, paginationPage)
+      .then(resp => {
+        if (resp.status !== 200) {
+          throw new Error(resp.statusText);
+        } else {
+          totalPages.current = resp.data.total_pages;
+          setMovieList(resp.data.results);
+        }
+      })
+      .catch(error => toast.error(error.message));
   }, [paginationPage]);
 
   const onLoadNextPage = () => {

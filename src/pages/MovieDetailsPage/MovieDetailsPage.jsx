@@ -12,17 +12,15 @@ const MovieDetailsPage = () => {
   const location = useLocation();
 
   useEffect(() => {
-    try {
-      getDataByAxios(`/movie/${movieId}`, 0, '').then(resp => {
+    getDataByAxios(`/movie/${movieId}`, 0, '')
+      .then(resp => {
         if (resp.status !== 200) {
           throw new Error(resp.statusText);
         } else {
           setMovieData(resp.data);
         }
-      });
-    } catch (error) {
-      toast.error(error.message);
-    }
+      })
+      .catch(error => toast.error(error.message));
   }, [movieId]);
 
   const {

@@ -10,17 +10,15 @@ const MovieCast = () => {
   const BASE_IMAGE_ENDPOINT = 'https://image.tmdb.org/t/p/w200/';
 
   useEffect(() => {
-    try {
-      getDataByAxios(`/movie/${movieId}/credits`, 0, '').then(resp => {
+    getDataByAxios(`/movie/${movieId}/credits`, 0, '')
+      .then(resp => {
         if (resp.status !== 200) {
           throw new Error(resp.statusText);
         } else {
           setMovieCast(resp.data.cast);
         }
-      });
-    } catch (error) {
-      toast.error(error.message);
-    }
+      })
+      .catch(error => toast.error(error.message));
   }, [movieId]);
 
   return (
