@@ -11,6 +11,7 @@ const MoviesPage = () => {
 
   const [movieList, setMovieList] = useState([]);
   const [forceUpd, setForceUpd] = useState(location.state);
+  console.log('location.state: ', location.state);
   const totalPages = useRef(0);
 
   let searchText = searchParams.get('search') ?? '';
