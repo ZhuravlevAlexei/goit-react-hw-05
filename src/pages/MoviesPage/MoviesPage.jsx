@@ -10,15 +10,15 @@ const MoviesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [movieList, setMovieList] = useState([]);
-  const [searchText, setSearchText] = useState(
-    searchParams.get('search') ?? ''
-  );
+  const [forceUpd, setForceUpd] = useState(location.state);
   const totalPages = useRef(0);
 
+  let searchText = searchParams.get('search') ?? '';
   let paginationPage = Number(searchParams.get('page')) ?? 0;
   let title = '';
 
   useEffect(() => {
+    if (!forceUpd) return;
     getDataByAxios(`/search/movie`, paginationPage, searchText)
       .then(resp => {
         if (resp.status !== 200) {
@@ -26,31 +26,34 @@ const MoviesPage = () => {
         } else {
           totalPages.current = resp.data.total_pages;
           setMovieList(resp.data.results);
+          setForceUpd(false);
         }
       })
       .catch(error => toast.error(error.message));
-  }, [paginationPage, searchText]);
+  }, [paginationPage, searchText, forceUpd]);
 
   const handleSubmit = evt => {
     evt.preventDefault();
     paginationPage = 1;
     let localValue = searchParams.get('search');
     setSearchParams({ search: localValue.trim(), page: 1 });
-    setSearchText(localValue.trim());
+    setForceUpd(true);
   };
 
   const handleSearchInputChange = ({ target: { value } }) => {
-    setSearchParams({ search: value, page: paginationPage });
+    setSearchParams({ search: value, page: 0 });
   };
 
   const onLoadNextPage = () => {
-    paginationPage = paginationPage + 1;
+    paginationPage += 1;
     setSearchParams({ search: searchText, page: paginationPage });
+    setForceUpd(true);
   };
 
   const onLoadPreviousPage = () => {
-    paginationPage = paginationPage - 1;
+    paginationPage -= 1;
     setSearchParams({ search: searchText, page: paginationPage });
+    setForceUpd(true);
   };
 
   const onToStartPage = () => {
@@ -58,11 +61,15 @@ const MoviesPage = () => {
     setSearchParams({ search: searchText, page: 1 });
   };
 
-  if (movieList.length === 0) {
-    title = 'No matches';
-  } else {
-    title = `Search "${searchText}" (Page ${paginationPage} of ${totalPages.current})`;
+  if (searchText) {
+    title = `Preparing to search "${searchText}"`;
   }
+
+  if (paginationPage) {
+    title = `Results for "${searchText}" (Page ${paginationPage} of ${totalPages.current})`;
+  }
+
+  location.state = true;
 
   return (
     <div>
