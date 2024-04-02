@@ -62,6 +62,7 @@ const MoviesPage = () => {
   const onToStartPage = () => {
     paginationPage = 1;
     setSearchParams({ search: searchText, page: 1 });
+    setForceUpd(true);
   };
 
   if (searchText) {
