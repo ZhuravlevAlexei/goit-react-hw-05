@@ -7,11 +7,12 @@ import MovieList from '../../components/MovieList/MovieList';
 
 const MoviesPage = () => {
   const location = useLocation();
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [movieList, setMovieList] = useState([]);
-  const [forceUpd, setForceUpd] = useState(location.state);
-  console.log('location.state: ', location.state);
+  const [forceUpd, setForceUpd] = useState(true);
+
   const totalPages = useRef(0);
 
   let searchText = searchParams.get('search') ?? '';
@@ -20,6 +21,7 @@ const MoviesPage = () => {
 
   useEffect(() => {
     if (!forceUpd) return;
+
     getDataByAxios(`/search/movie`, paginationPage, searchText)
       .then(resp => {
         if (resp.status !== 200) {
@@ -69,8 +71,6 @@ const MoviesPage = () => {
   if (paginationPage) {
     title = `Results for "${searchText}" (Page ${paginationPage} of ${totalPages.current})`;
   }
-
-  location.state = true;
 
   return (
     <div>
