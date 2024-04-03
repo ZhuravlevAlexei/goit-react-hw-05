@@ -12,12 +12,20 @@ const MovieList = ({
   onLoadPreviousPage,
   onToStartPage,
 }) => {
+  const handleContextMenu = () => {
+    localStorage.setItem('actualLocation', JSON.stringify(location));
+  };
+
   return (
     <>
       <ul>
         {movieList.map(({ id, title }) => (
           <li key={id} className={css.listTxt}>
-            <Link to={`/movies/${id}`} state={location}>
+            <Link
+              onContextMenu={handleContextMenu}
+              to={`/movies/${id}`}
+              state={location}
+            >
               {title}
             </Link>
           </li>

@@ -34,9 +34,31 @@ const MovieDetailsPage = () => {
 
   const pathToPoster = BASE_IMAGE_ENDPOINT + poster_path;
 
+  const findThePath = () => {
+    if (location.state) {
+      return location.state;
+    }
+
+    let actualLocation = null;
+    try {
+      actualLocation = JSON.parse(localStorage.getItem('actualLocation'));
+    } catch (error) {
+      console.log(error);
+    }
+
+    if (actualLocation) {
+      return actualLocation;
+    } else {
+      toast.error(
+        'Wrong path to go back! We will redirect you to the Home page'
+      );
+      return '/';
+    }
+  };
+
   return (
     <>
-      <Link className={css.linkAdditional} to={location.state}>
+      <Link className={css.linkAdditional} to={findThePath()}>
         &#8592; Go back
       </Link>
       <div className={css.movieCard}>
